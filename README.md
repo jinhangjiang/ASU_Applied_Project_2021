@@ -2,5 +2,5 @@
 
 TEAM-A8 Adidas
 
-Advisor: Dr. Victor Benjamin
+Advisor: Dr. Victor Benjamin /br
 Team Member: Jinhang Jiang, Bhavana Patil, Jinghuan Li, Dhruv Tyagi
