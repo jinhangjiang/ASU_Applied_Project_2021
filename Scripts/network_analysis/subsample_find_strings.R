@@ -1,24 +1,31 @@
+
+
+subsample <- list()
+for(i in 1:4){
+  subsample[[i]]<- emb_df[fit2$cluster==i,-1]
+}
+
+
 sub<-rownames(subsample[[1]])
 gsub("\"","",sub, fixed = TRUE )
+
+
 
 subset1<- subset(emb_df, rownames(emb_df) %in% rownames(subsample[[1]]))
 subset2<- subset(emb_df, rownames(emb_df) %in% rownames(subsample[[2]]))
 subset3<- subset(emb_df, rownames(emb_df) %in% rownames(subsample[[3]]))
 subset4<- subset(emb_df, rownames(emb_df) %in% rownames(subsample[[4]]))
 
+Net<-read.csv("NetworkAnalysis1.csv")
+head(Net)
 
-icd<-read.csv("diag.csv")
-head(icd)
-
-Group1<-as.data.frame(unique(icd[icd$icd10 %in% subset1$Source, "diagnosisstring"]))
-Group2<-as.data.frame(unique(icd[icd$icd10 %in% subset2$Source, "diagnosisstring"]))
-Group3<-as.data.frame(unique(icd[icd$icd10 %in% subset3$Source, "diagnosisstring"]))
-Group4<-as.data.frame(unique(icd[icd$icd10 %in% subset4$Source, "diagnosisstring"]))
+Group1<-as.data.frame(unique(Net[Net$Celebrity %in% subset1$X, "Celebrity"]))
+Group2<-as.data.frame(unique(Net[Net$Celebrity %in% subset2$X, "Celebrity"]))
+Group3<-as.data.frame(unique(Net[Net$Celebrity %in% subset3$X, "Celebrity"]))
+Group4<-as.data.frame(unique(Net[Net$Celebrity %in% subset4$X, "Celebrity"]))
 
 
-length(unique(icd$diagnosisstring))
 
-colnames(Group1)<-c("Diagnosis String")
 
 
 write.csv(Group1, file = "Output/Group1.csv")

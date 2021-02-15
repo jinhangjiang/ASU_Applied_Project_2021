@@ -1,8 +1,11 @@
 ---
-title: "K-Means_CLusters"
+title: "Networkx_KMeans_Clustering"
 author: "Jinhang Jiang"
-date: "4/25/2020"
-output: pdf_document
+date: "2/14/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -10,12 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Load Everything We need
 
 ```{r Load}
 library(fpc)
-set.seed(2020)
-emb_df=read.csv("EmbeddingTable.csv")
+set.seed(2021)
+emb_df = read.csv("embedding1.csv")
 head(emb_df)
 ```
 
@@ -33,6 +35,9 @@ summary(fit)
 
 # Names
 names(fit)
+
+#tot.withinss
+fit$tot.withinss
 ```
 
 ## SubSample
@@ -68,7 +73,7 @@ plot(1:10, wss, type = "o")
 
 
 ```{r}
-fit2 <- kmeans(emb_df[,-1], 9,)
+fit2 <- kmeans(emb_df[,-1], 4,)
 
 plotcluster(emb_df[,-1],fit$cluster)
 plotcluster(emb_df[,-1],fit2$cluster)
