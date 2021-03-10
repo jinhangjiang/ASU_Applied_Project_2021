@@ -1,0 +1,94 @@
+---
+title: "Networkx_KMeans_Clustering"
+author: "Jinhang Jiang"
+date: "2/14/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r Load}
+library(fpc)
+set.seed(2021)
+emb_df = read.csv("embedding1.csv")
+head(emb_df)
+```
+
+## Fit a Model
+
+We fit K-means here and take a look of the model:
+
+```{r fitmodel}
+fit <- kmeans(emb_df[,-1], 5,)
+# Cluster
+fit$cluster
+
+# Summary
+summary(fit)
+
+# Names
+names(fit)
+
+#tot.withinss
+fit$tot.withinss
+```
+
+## SubSample
+
+We run a quick loop here to sub sample the clusters for potential later use:
+```{r SubSample}
+subsample <- list()
+for(i in 1:5){
+  subsample[[i]]<- emb_df[fit$cluster==i,-1]
+}
+```
+
+Let's veryfiy those centers given the cluster labels:
+```{r Verify_Data}
+
+fit$centers[1:20]
+
+apply(subsample[[1]], 2, mean)
+```
+
+We can run a quick check for the choice of K here:
+
+```{r}
+########## choice of K
+wss<- NULL
+for (i in 1:10){
+  fit1=kmeans(emb_df[,-1],centers = i)
+  wss=c(wss, fit1$tot.withinss)
+}
+
+plot(1:10, wss, type = "o")
+```
+
+
+```{r}
+fit2 <- kmeans(emb_df[,-1], 4,)
+
+plotcluster(emb_df[,-1],fit$cluster)
+plotcluster(emb_df[,-1],fit2$cluster)
+
+```
+
+
+Performe hierarchical clustering:
+
+```{r hierarchical_clustering}
+
+## calculate the distance matrix
+emb.dist<- dist(emb_df[,-1])
+#obtain clusters
+emb.hcluster<- hclust(emb.dist)
+plot(emb.hcluster)
+```
+
